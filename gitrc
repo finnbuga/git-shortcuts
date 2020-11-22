@@ -1,0 +1,139 @@
+# For colours and formatting check: https://misc.flogisoft.com/bash/tip_colors_and_formatting
+
+############################
+#   Helpers
+############################
+
+function has_remote() {
+	exec >/dev/null
+	exec 2>/dev/null
+	git ls-remote --exit-code --heads origin $(git branch --show-current)
+	local has_remote=$?
+	exec >/dev/tty
+	exec 2>/dev/tty
+	
+	return $has_remote
+}
+
+function has_files_in_stating() {
+	git diff --cached --quiet
+	return $?
+}
+
+############################
+#   s
+#   git staus
+############################
+
+alias s='git status'
+
+
+############################
+#   a <new_branch_name>
+#   add new branch with the name "SB1-<new_branch_name>"
+############################
+
+function a() {
+	git checkout -b "SB1-$1"
+}
+
+
+############################
+#   b
+#   git branch
+############################
+
+branches_ASCII_art='  /|\\'
+alias b='echo $branches_ASCII_art && git branch --color | cat'
+
+
+############################
+#   d [<branch>]
+#   delete <branch>. It defaults to the current branch (and checks out develop).
+############################
+
+function d() {
+	if [ $# -eq 0 ]; then
+		local branch=$(git branch --show-current)
+		
+		exec >/dev/null
+		exec 2>/dev/null
+		git checkout develop
+		exec >/dev/tty
+		exec 2>/dev/tty
+	else
+		local branch=$1
+	fi
+	
+	exec >/dev/null
+	git branch -D "$branch"
+	exec >/dev/tty
+	
+	if [ $? -ne 0 ]; then
+		return 0    
+    fi
+    
+    b
+	echo "\e[0m  \e[91;9m$branch\e[0m"
+    
+    local current_branch=$(git branch --show-current)
+    if [ $current_branch = develop ]; then
+    	git pull -p --ff-only
+    fi
+}
+
+
+############################
+#   l, lll
+#   git log, git long log
+############################
+
+local format="%C(yellow)%h %C(blue)%aN %C(green)(%cr) %C(white)%s%C(yellow)%d%C(reset)"
+alias l='git log --color --use-mailmap --pretty=format:"$format" -6 | cat'
+alias lll='git log --color --use-mailmap --pretty=format:"$format" -4 --name-status | cat'
+
+
+############################
+#   c [<branch>]
+#   git checkout <branch>. Defaults to develop in which case also perform git pull.
+############################
+
+function c() {
+	if [ $# -eq 0 ]; then
+		git checkout develop && git pull -p --ff-only
+	else
+		git checkout $1
+	fi
+}
+
+
+############################
+#   co <message>
+#   git commit. If no message then amend previous commit. Also if no files in staging, then do git commit -A.
+############################
+
+function co() {
+	if has_files_in_stating; then
+		git add -A
+	fi
+		
+	if [ $# -eq 0 ]; then
+		git commit --amend --no-edit
+	else
+		git commit -m $1
+	fi
+}
+
+
+############################
+#   p
+#   git push. If it doesn't track a remote branch then --set-upstream origin <current_branch>
+############################
+
+function p() {
+	if has_remote; then
+		git push --no-verify
+	else
+		git push --no-verify --set-upstream origin $(git branch --show-current)
+	fi
+}

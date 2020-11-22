@@ -5,14 +5,8 @@
 ############################
 
 function has_remote() {
-	exec >/dev/null
-	exec 2>/dev/null
-	git ls-remote --exit-code --heads origin $(git branch --show-current)
-	local has_remote=$?
-	exec >/dev/tty
-	exec 2>/dev/tty
-	
-	return $has_remote
+	git ls-remote --exit-code --heads origin $(git branch --show-current) &>/dev/null
+	return $?
 }
 
 function has_files_in_stating() {
@@ -20,36 +14,72 @@ function has_files_in_stating() {
 	return $?
 }
 
-############################
-#   s
-#   git staus
-############################
-
-alias s='git status'
-
-
-############################
-#   a <new_branch_name>
-#   add new branch with the name "SB1-<new_branch_name>"
-############################
-
-function a() {
-	git checkout -b "SB1-$1"
+function is_existing_branch() {
+	git rev-parse --verify "$1" &>/dev/null	
+	return $?
 }
 
 
 ############################
-#   b
-#   git branch
+#   c [<branch>]
+#   ------------
+#   checks out `<branch>`. If if does't exist, then it creates one with the following name: `SB1-<new_branch_name>`.
+#   If no `<branch>` is provided, then it defaults to checking out the `develop` branch and performing a `git pull`.
 ############################
 
-branches_ASCII_art='  /|\\'
-alias b='echo $branches_ASCII_art && git branch --color | cat'
+function c() {
+	if [ $# -eq 0 ]; then
+		git checkout develop && git pull -p --ff-only
+		return 0
+	fi
+	
+	if is_existing_branch "$1"; then
+		git checkout "$1"
+	else
+		git checkout -b "SB1-$1"
+	fi
+}
+
+
+############################
+#   co [<message>]
+#   ------------
+#   commits the files in stating. If there are no files in staging, then it commits all the files.
+#   If no `<message>` is provided, then it amends the previous commit and keeps the same message.
+############################
+
+function co() {
+	if has_files_in_stating; then
+		git add -A
+	fi
+		
+	if [ $# -eq 0 ]; then
+		git commit --amend --no-edit
+	else
+		git commit -m $1
+	fi
+}
+
+
+############################
+#   p
+#   -
+#   `git push`. If it doesn't track a remote branch then it sets one up.
+############################
+
+function p() {
+	if has_remote; then
+		git push --no-verify
+	else
+		git push --no-verify --set-upstream origin $(git branch --show-current)
+	fi
+}
 
 
 ############################
 #   d [<branch>]
-#   delete <branch>. It defaults to the current branch (and checks out develop).
+#   ------------
+#   deletes `<branch>`. If no parameter given, it defaults to deleting the current branch and checking out the `develop` branch.
 ############################
 
 function d() {
@@ -84,8 +114,19 @@ function d() {
 
 
 ############################
+#   b
+#   -
+#   `git branch`
+############################
+
+branches_ASCII_art='  /|\\'
+alias b='echo $branches_ASCII_art && git branch --color | cat'
+
+
+############################
 #   l, lll
-#   git log, git long log
+#   ------
+#   git log with pretty formatting. `l` is the short version, `lll` is the long one.
 ############################
 
 local format="%C(yellow)%h %C(blue)%aN %C(green)(%cr) %C(white)%s%C(yellow)%d%C(reset)"
@@ -94,46 +135,9 @@ alias lll='git log --color --use-mailmap --pretty=format:"$format" -4 --name-sta
 
 
 ############################
-#   c [<branch>]
-#   git checkout <branch>. Defaults to develop in which case also perform git pull.
+#   s
+#   -
+#   `git staus`
 ############################
 
-function c() {
-	if [ $# -eq 0 ]; then
-		git checkout develop && git pull -p --ff-only
-	else
-		git checkout $1
-	fi
-}
-
-
-############################
-#   co <message>
-#   git commit. If no message then amend previous commit. Also if no files in staging, then do git commit -A.
-############################
-
-function co() {
-	if has_files_in_stating; then
-		git add -A
-	fi
-		
-	if [ $# -eq 0 ]; then
-		git commit --amend --no-edit
-	else
-		git commit -m $1
-	fi
-}
-
-
-############################
-#   p
-#   git push. If it doesn't track a remote branch then --set-upstream origin <current_branch>
-############################
-
-function p() {
-	if has_remote; then
-		git push --no-verify
-	else
-		git push --no-verify --set-upstream origin $(git branch --show-current)
-	fi
-}
+alias s='git status'

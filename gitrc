@@ -23,7 +23,7 @@ function is_existing_branch() {
 ############################
 #   c [<branch>]
 #   ------------
-#   checks out `<branch>`. If if does't exist, then it creates one with the following name: `SB1-<new_branch_name>`.
+#   checks out `<branch>`. If if does't exist, then it creates one with the following name: `APL-<new_branch_name>`.
 #   If no `<branch>` is provided, then it defaults to checking out the `develop` branch and performing a `git pull`.
 ############################
 
@@ -36,7 +36,7 @@ function c() {
 	if is_existing_branch "$1"; then
 		git checkout "$1"
 	else
-		git checkout -b "SB1-$1"
+		git checkout -b "APL-$1"
 	fi
 }
 
@@ -77,6 +77,16 @@ function p() {
 
 
 ############################
+#   b
+#   -
+#   `git branch`
+############################
+
+branches_ASCII_art='  /|\\'
+alias b='echo $branches_ASCII_art && git branch --color | cat'
+
+
+############################
 #   d [<branch>]
 #   ------------
 #   deletes `<branch>`. If no parameter given, it defaults to deleting the current branch and checking out the `develop` branch.
@@ -85,19 +95,12 @@ function p() {
 function d() {
 	if [ $# -eq 0 ]; then
 		local branch=$(git branch --show-current)
-		
-		exec >/dev/null
-		exec 2>/dev/null
-		git checkout develop
-		exec >/dev/tty
-		exec 2>/dev/tty
+		git checkout develop &>/dev/null
 	else
 		local branch=$1
 	fi
 	
-	exec >/dev/null
-	git branch -D "$branch"
-	exec >/dev/tty
+	git branch -D "$branch" &>/dev/null
 	
 	if [ $? -ne 0 ]; then
 		return 0    
@@ -111,16 +114,6 @@ function d() {
     	git pull -p --ff-only
     fi
 }
-
-
-############################
-#   b
-#   -
-#   `git branch`
-############################
-
-branches_ASCII_art='  /|\\'
-alias b='echo $branches_ASCII_art && git branch --color | cat'
 
 
 ############################
@@ -141,3 +134,12 @@ alias lll='git log --color --use-mailmap --pretty=format:"$format" -4 --name-sta
 ############################
 
 alias s='git status'
+
+
+############################
+#   rrr
+#   -
+#   `git reset --hard HEAD`
+############################
+
+alias rrr='git reset --hard HEAD'

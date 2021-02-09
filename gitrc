@@ -40,7 +40,7 @@ function c() {
 		
 	elif [[ "$1" =~ ^[0-9] ]]
 	then
-		git checkout -b "feature/ASL-$1"
+		git checkout -b "feature/APL-$1"
 		
 	else
 		git checkout -b "$1"

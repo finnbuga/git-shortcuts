@@ -2,34 +2,103 @@
 git shortcuts for zsh
 
 ## Getting Started
-Copy the content of `gitrc` into your `~/.zshrc`. You'll then get access to the commands bellow.
+Import this file into `~/.zshrc`:
+```
+# ~/.zshrc
 
-*Note: Some of these are specific to the project I'm working on, like the `SB1-` branch suffix. Feel free to adapt it to your own needs.*
+source ~/.gitrc
+```
+
+You'll then get access to the commands bellow.
+
+*Note: Some of these are specific to the project I'm working on, like the `APL-` branch suffix. Feel free to adapt it to your own needs.*
 
 ## Commands
 
 #### `c [<branch>]`
-checks out `<branch>`. If if does't exist, then it creates one with the following name: `SB1-<new_branch_name>`.
-If no `<branch>` is provided, then it defaults to checking out the `develop` branch and performing a `git pull`.
+checks out `<branch>`:
+
+```
+$ c existing_branch
+```
+check out `existing_branch`
+
+```
+$ c
+```
+check out the `develop` branch and perform `git pull`
+
+```
+$ c hotfix/10.2.1
+```
+if branch doesn't exist, create it and check it out
+
+```
+$ c 324
+```
+if branch does not exist and starts with a number (like Jira tickets)
+then create branch `feature/ASL-324` and check it out
   
 #### `co [<message>]`
-commits the files in stating. If there are no files in staging, then it commits all the files.
-If no `<message>` is provided, then it amends the previous commit and keeps the same message.
+```
+$ git add newFile.js
+$ c "add newFile.js"
+```
+commit the files in stating
+
+```
+$ c "commiting all changes"
+```
+if no files in staging, add all automatically, then commit
+
+```
+$ c
+```
+if no message provided, then amend the previous commit and keep the same message
 
 #### `p`
-`git push`. If it doesn't track a remote branch then it sets up one.
+```
+$ p
+```
+git push. If it doesn't track a remote branch then set one up.
 
 #### `d [<branch>]`
-deletes `<branch>`. If no parameter given, it defaults to deleting the current branch and checking out the `develop` branch.
+```
+$ d branch
+```
+delete branch
+
+```
+$ d
+```
+delete current branch and check out the `develop` branch.
 
 #### `b`
-`git branch`
+```
+$ b
+```
+show branches
 
 #### `l, lll`
-git log with pretty formatting. `l` is the short version, `lll` is the long one.
+```
+$ l
+```
+one line log with pretty formatting
+
+```
+$ lll
+```
+detailed log
 
 #### `s`
-`git staus`
+```
+$ s
+```
+git status
 
-
+#### `rrr`
+```
+$ rrr
+```
+git reset --hard HEAD
 

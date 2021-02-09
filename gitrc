@@ -23,20 +23,27 @@ function is_existing_branch() {
 ############################
 #   c [<branch>]
 #   ------------
-#   checks out `<branch>`. If if does't exist, then it creates one with the following name: `APL-<new_branch_name>`.
+#   checks out `<branch>`.
+#   If if does't exist, then it creates a new one.
+#   If <branch> starts with a number, then its name will be `feature/APL-<branch>`.
 #   If no `<branch>` is provided, then it defaults to checking out the `develop` branch and performing a `git pull`.
 ############################
 
 function c() {
-	if [ $# -eq 0 ]; then
+	if [ $# -eq 0 ]; 
+	then
 		git checkout develop && git pull -p --ff-only
-		return 0
-	fi
-	
-	if is_existing_branch "$1"; then
+		
+	elif is_existing_branch "$1"; 
+	then
 		git checkout "$1"
+		
+	elif [[ "$1" =~ ^[0-9] ]]
+	then
+		git checkout -b "feature/ASL-$1"
+		
 	else
-		git checkout -b "APL-$1"
+		git checkout -b "$1"
 	fi
 }
 
@@ -44,7 +51,7 @@ function c() {
 ############################
 #   co [<message>]
 #   ------------
-#   commits the files in stating. If there are no files in staging, then it commits all the files.
+#   Commits the files in stating. If there are no files in staging, then it commits all the files.
 #   If no `<message>` is provided, then it amends the previous commit and keeps the same message.
 ############################
 
@@ -69,7 +76,7 @@ function co() {
 
 function p() {
 	if has_remote; then
-		git push --no-verify
+		git push --no-verify -f
 	else
 		git push --no-verify --set-upstream origin $(git branch --show-current)
 	fi

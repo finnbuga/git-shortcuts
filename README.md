@@ -37,7 +37,7 @@ if branch doesn't exist, create it and check it out
 $ c 324
 ```
 if branch does not exist and starts with a number (like Jira tickets)
-then create branch `feature/ASL-324` and check it out
+then create branch `feature/APL-324` and check it out
   
 #### `co [<message>]`
 ```

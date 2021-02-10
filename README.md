@@ -11,7 +11,7 @@ source ~/.gitrc
 
 You'll then get access to the commands bellow.
 
-*Note: Some of these are specific to the project I'm working on, like the `APL-` branch suffix. Feel free to adapt it to your own needs.*
+*Note: Some of these are specific to the project I'm working on, like the `feature/APL-` branch prefix. Feel free to adapt it to your own needs.*
 
 ## Commands
 

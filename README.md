@@ -15,6 +15,29 @@ You'll then get access to the commands bellow.
 
 ## Commands
 
+#### `s`
+```
+$ s
+```
+git status
+
+#### `b`
+```
+$ b
+```
+show branches
+
+#### `d [<branch>]`
+```
+$ d branch
+```
+delete branch
+
+```
+$ d
+```
+delete current branch and check out the `develop` branch.
+
 #### `c [<branch>]`
 checks out `<branch>`:
 
@@ -55,29 +78,6 @@ $ co
 ```
 if no message provided, then amend the previous commit and keep the same message
 
-#### `p`
-```
-$ p
-```
-git push. If it doesn't track a remote branch then set one up.
-
-#### `d [<branch>]`
-```
-$ d branch
-```
-delete branch
-
-```
-$ d
-```
-delete current branch and check out the `develop` branch.
-
-#### `b`
-```
-$ b
-```
-show branches
-
 #### `l, lll`
 ```
 $ l
@@ -89,11 +89,11 @@ $ lll
 ```
 detailed log
 
-#### `s`
+#### `p`
 ```
-$ s
+$ p
 ```
-git status
+git push. If it doesn't track a remote branch then set one up.
 
 #### `rrr`
 ```

@@ -41,18 +41,17 @@ then create branch `feature/APL-324` and check it out
   
 #### `co [<message>]`
 ```
-$ git add newFile.js
-$ c "add newFile.js"
+$ co "add newFile.js"
 ```
 commit the files in stating
 
 ```
-$ c "commiting all changes"
+$ co "commiting all changes"
 ```
 if no files in staging, add all automatically, then commit
 
 ```
-$ c
+$ co
 ```
 if no message provided, then amend the previous commit and keep the same message
 

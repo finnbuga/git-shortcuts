@@ -21,6 +21,17 @@ $ s
 ```
 git status
 
+#### `l, lll`
+```
+$ l
+```
+one line log with pretty formatting
+
+```
+$ lll
+```
+detailed log
+
 #### `b`
 ```
 $ b
@@ -29,14 +40,14 @@ show branches
 
 #### `d [<branch>]`
 ```
-$ d branch
-```
-delete branch
-
-```
 $ d
 ```
 delete current branch and check out the `develop` branch.
+
+```
+$ d branch
+```
+delete branch
 
 #### `c [<branch>]`
 checks out `<branch>`:
@@ -77,17 +88,6 @@ if no files in staging, add all automatically, then commit
 $ co
 ```
 if no message provided, then amend the previous commit and keep the same message
-
-#### `l, lll`
-```
-$ l
-```
-one line log with pretty formatting
-
-```
-$ lll
-```
-detailed log
 
 #### `p`
 ```

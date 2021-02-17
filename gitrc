@@ -50,7 +50,7 @@ function c() {
 
 ############################
 #   co [<message>]
-#   ------------
+#   --------------
 #   Commits the files in stating. If there are no files in staging, then it commits all the files.
 #   If no `<message>` is provided, then it amends the previous commit and keeps the same message.
 ############################
@@ -67,6 +67,16 @@ function co() {
 	fi
 }
 
+############################
+#   re
+#   --
+#   Rebases the current branch onto develop, after having pulled origin/develop
+############################
+
+function re() {
+	git fetch origin develop:develop
+	git rebase develop
+}
 
 ############################
 #   p

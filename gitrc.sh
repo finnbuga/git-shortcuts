@@ -23,39 +23,36 @@ function is_existing_branch() {
 ############################
 #   c [<branch>]
 #   ------------
-#   checks out `<branch>`.
+#   Checks out `<branch>`.
 #   If if does't exist, then it creates a new one.
-#   If <branch> starts with a number, then its name will be `feature/APL-<branch>`.
-#   If no `<branch>` is provided, then it defaults to checking out the `develop` branch and performing a `git pull`.
+#   If no `<branch>` is provided, then it defaults to checking out `master` and performing a `git pull`.
 ############################
 
 function c() {
 	if [ $# -eq 0 ]; 
 	then
-		git checkout develop && git pull -p --ff-only
+		git checkout master # && git pull -p --ff-only
 		
 	elif is_existing_branch "$1"; 
 	then
 		git checkout "$1"
-		
-	elif [[ "$1" =~ ^[0-9] ]]
-	then
-		git checkout -b "feature/APL-$1"
 		
 	else
 		git checkout -b "$1"
 	fi
 }
 
+complete -C "git branch --no-color" c
+
 
 ############################
-#   co [<message>]
+#   cm [<message>]
 #   --------------
 #   Commits the files in stating. If there are no files in staging, then it commits all the files.
 #   If no `<message>` is provided, then it amends the previous commit and keeps the same message.
 ############################
 
-function co() {
+function cm() {
 	if has_files_in_stating; then
 		git add -A
 	fi
@@ -67,16 +64,18 @@ function co() {
 	fi
 }
 
+
 ############################
 #   re
 #   --
-#   Rebases the current branch onto develop, after having pulled origin/develop
+#   Rebases the current branch onto `master`, after having pulled `origin/master`
 ############################
 
 function re() {
-	git fetch origin develop:develop
-	git rebase develop
+	git fetch origin master:master
+	git rebase master
 }
+
 
 ############################
 #   p
@@ -106,13 +105,15 @@ alias b='echo $branches_ASCII_art && git branch --color | cat'
 ############################
 #   d [<branch>]
 #   ------------
-#   deletes `<branch>`. If no parameter given, it defaults to deleting the current branch and checking out the `develop` branch.
+#   deletes `<branch>`. If no parameter given, it defaults to 
+#   deleting the current branch and checking out `master`.
 ############################
 
 function d() {
 	if [ $# -eq 0 ]; then
 		local branch=$(git branch --show-current)
-		git checkout develop &>/dev/null
+		local hash=$(git rev-parse --short HEAD)
+		git checkout master &>/dev/null
 	else
 		local branch=$1
 	fi
@@ -121,17 +122,13 @@ function d() {
 	
 	if [ $? -ne 0 ]; then
 		return 0    
-    fi
+  fi
     
-    b
-	echo "\e[0m  \e[91;9m$branch\e[0m"
-    
-    local current_branch=$(git branch --show-current)
-    if [ $current_branch = develop ]; then
-    	git pull -p --ff-only
-    fi
+  b
+	echo "\e[0m  \e[91;9m$branch ($hash)\e[0m"
 }
 
+complete -C "git branch --no-color" d
 
 ############################
 #   l, lll

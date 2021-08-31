@@ -112,11 +112,12 @@ alias b='echo $branches_ASCII_art && git branch --color | cat'
 function d() {
 	if [ $# -eq 0 ]; then
 		local branch=$(git branch --show-current)
-		local hash=$(git rev-parse --short HEAD)
 		git checkout master &>/dev/null
 	else
-		local branch=$1
+		local branch=$1		
 	fi
+	
+	local hash=$(git rev-parse --short $branch)
 	
 	git branch -D "$branch" &>/dev/null
 	

@@ -1,8 +1,11 @@
 # git-shortcuts
+
 git shortcuts for zsh
 
 ## Getting Started
+
 Import this file into `~/.zshrc`:
+
 ```
 # ~/.zshrc
 
@@ -14,82 +17,103 @@ You'll then get access to the commands bellow.
 ## Commands
 
 #### `s`
+
 ```
-$ s
+s
 ```
+
 git status
 
 #### `l, lll`
+
 ```
-$ l
+l
 ```
+
 one line log with pretty formatting
 
 ```
-$ lll
+lll
 ```
+
 detailed log
 
 #### `b`
+
 ```
-$ b
+b
 ```
+
 show branches
 
 #### `d [<branch>]`
+
 ```
-$ d
+d
 ```
+
 delete current branch and check out `master`.
 
 ```
-$ d branch
+d branch
 ```
+
 delete branch
 
 #### `c [<branch>]`
+
 checks out `<branch>`:
 
 ```
-$ c existing_branch
+c existing_branch
 ```
+
 check out `existing_branch`
 
 ```
-$ c
+c
 ```
+
 check out `master`
 
 ```
-$ c new_branch
+c new_branch
 ```
+
 if branch doesn't exist, create it and check it out
-  
+
 #### `cm [<message>]`
+
 ```
-$ cm "add newFile.js"
+cm "add newFile.js"
 ```
+
 commit the files in stating
 
 ```
-$ cm "commiting all changes"
+cm "commiting all changes"
 ```
+
 if no files in staging, add all automatically, then commit
 
 ```
-$ cm
+cm
 ```
+
 if no message provided, then amend the previous commit and keep the same message
 
 #### `p`
+
 ```
-$ p
+p
 ```
+
 git force push. If it doesn't track a remote branch then set one up automatically.
 
 #### `rrr`
-```
-$ rrr
-```
-git reset --hard HEAD
 
+```
+rrr
+```
+
+git reset --hard HEAD

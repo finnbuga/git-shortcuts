@@ -47,6 +47,18 @@ complete -C "git branch --no-color" c
 
 
 ############################
+#   cc <remote_branch>
+#   ------------
+#   Checks out `<remote_branch>`.
+############################
+
+function cc() {
+	git fetch
+	git checkout "$1"
+}
+
+
+############################
 #   cm [<message>]
 #   --------------
 #   Commits the files in stating. If there are no files in staging, then it commits all the files.

@@ -1,119 +1,83 @@
-# git-shortcuts
-
-git shortcuts for zsh
+# Git shortcuts
 
 ## Getting Started
 
-Import this file into `~/.zshrc`:
+Import `gitrc.sh` file into `~/.zshrc`:
 
 ```
 # ~/.zshrc
 
-source ~/.gitrc.sh
+source ~/gitrc.sh
 ```
 
 You'll then get access to the commands bellow.
 
 ## Commands
 
-#### `s`
+### `s`
 
 ```
+# show status
 s
 ```
 
-git status
-
-#### `l, lll`
+### `l, lll`
 
 ```
+# show one line log with pretty formatting
 l
-```
 
-one line log with pretty formatting
-
-```
+# show detailed log
 lll
 ```
 
-detailed log
-
-#### `b`
+### `b`
 
 ```
+# show branches
 b
 ```
 
-show branches
-
-#### `d [<branch>]`
+### `d [<branch>]`
 
 ```
+# delete <branch>
+d <branch>
+
+# delete current branch and check out `master`
 d
 ```
 
-delete current branch and check out `master`.
+### `c [<branch>]`
 
 ```
-d branch
-```
+# check out <branch> if it exists, otherwise create new branch and check it out
+c <branch>
 
-delete branch
-
-#### `c [<branch>]`
-
-checks out `<branch>`:
-
-```
-c existing_branch
-```
-
-check out `existing_branch`
-
-```
+# check out `master`
 c
 ```
 
-check out `master`
+### `cm [<message>]`
 
 ```
-c new_branch
-```
+# commit the files in stating. If no files in stating then commit all changes in the working directory
+cm "<commit_message>"
 
-if branch doesn't exist, create it and check it out
-
-#### `cm [<message>]`
-
-```
-cm "add newFile.js"
-```
-
-commit the files in stating
-
-```
-cm "commiting all changes"
-```
-
-if no files in staging, add all automatically, then commit
-
-```
+# If no message provided, then amend the previous commit and keep the same message
 cm
 ```
 
-if no message provided, then amend the previous commit and keep the same message
-
-#### `p`
+### `p`
 
 ```
+# git force push. If it doesn't track a remote branch then set one up automatically.
 p
 ```
 
-git force push. If it doesn't track a remote branch then set one up automatically.
-
-#### `rrr`
+### `rrr`
 
 ```
+# git reset --hard HEAD
 rrr
 ```
-
-git reset --hard HEAD

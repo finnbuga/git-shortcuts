@@ -42,6 +42,7 @@ function c() {
 	fi
 }
 
+# Autocomplete branch name for command `c`
 complete -C "git branch --no-color" c
 
 
@@ -129,6 +130,7 @@ function d() {
 	echo "\e[0m  \e[91;9m$branch ($hash)\e[0m"
 }
 
+# Autocomplete branch name for command `d`
 complete -C "git branch --no-color" d
 
 ############################

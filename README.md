@@ -58,6 +58,13 @@ c <branch>
 c
 ```
 
+### `cc <remote_branch>`
+
+```
+# check out <remote_branch>
+cc <remote_branch>
+```
+
 ### `cm [<message>]`
 
 ```

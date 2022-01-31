@@ -112,7 +112,7 @@ function p() {
 ############################
 
 branches_ASCII_art='  /|\\'
-alias b='echo $branches_ASCII_art && git branch --color | cat'
+alias b='echo $branches_ASCII_art && git branch --sort=-committerdate | grep -vE "master"'
 
 
 ############################

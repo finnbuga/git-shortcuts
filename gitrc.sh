@@ -25,13 +25,13 @@ function is_existing_branch() {
 #   ------------
 #   Checks out `<branch>`.
 #   If if does't exist, then it creates a new one.
-#   If no `<branch>` is provided, then it defaults to checking out `master` and performing a `git pull`.
+#   If no `<branch>` is provided, then it defaults to checking out `develop` and performing a `git pull`.
 ############################
 
 function c() {
 	if [ $# -eq 0 ]; 
 	then
-		git checkout master # && git pull -p --ff-only
+		git checkout develop # && git pull -p --ff-only
 		
 	elif is_existing_branch "$1"; 
 	then
@@ -79,14 +79,14 @@ function cm() {
 
 
 ############################
-#   re
+#   reb
 #   --
-#   Rebases the current branch onto `master`, after having pulled `origin/master`
+#   Rebases the current branch onto `develop`, after having pulled `origin/develop`
 ############################
 
-function re() {
-	git fetch origin master:master
-	git rebase master
+function reb() {
+	git fetch origin develop:develop
+	git rebase develop
 }
 
 
@@ -112,20 +112,26 @@ function p() {
 ############################
 
 branches_ASCII_art='  /|\\'
-alias b='echo $branches_ASCII_art && git branch --sort=-committerdate | grep -vE "master"'
+function b() {
+	if [ "$1" = "-a" ]; then
+		echo $branches_ASCII_art && git branch --sort=-committerdate
+	else
+		echo $branches_ASCII_art && git branch --sort=-committerdate | grep -vE "develop|_"
+	fi
+}
 
 
 ############################
 #   d [<branch>]
 #   ------------
 #   deletes `<branch>`. If no parameter given, it defaults to 
-#   deleting the current branch and checking out `master`.
+#   deleting the current branch and checking out `develop`.
 ############################
 
 function d() {
 	if [ $# -eq 0 ]; then
 		local branch=$(git branch --show-current)
-		git checkout master &>/dev/null
+		git checkout develop &>/dev/null
 	else
 		local branch=$1		
 	fi

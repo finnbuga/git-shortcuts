@@ -157,9 +157,10 @@ complete -C "git branch --no-color" d
 #   git log with pretty formatting. `l` is the short version, `lll` is the long one.
 ############################
 
-local format="%C(yellow)%h %C(blue)%aN %C(green)(%cr) %C(white)%s%C(yellow)%d%C(reset)"
-alias l='git log --color --use-mailmap --pretty=format:"$format" -6 | cat'
-alias lll='git log --color --use-mailmap --pretty=format:"$format" -4 --name-status | cat'
+local format="%C(yellow)%h %C(blue)%aN %C(green)(%cr)%n%C(white)%s%C(yellow)%d%C(reset)%n"
+
+alias l='git log --oneline HEAD --not develop --color --use-mailmap --pretty=format:"$format" -6 | cat'
+alias lll='git log --oneline HEAD --not develop --color --use-mailmap --pretty=format:"$format" -4 --name-status | cat'
 
 
 ############################
